@@ -143,10 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 
-    /* ---------------------------------------------------------------
-      6. Reveal-on-scroll — content fades in and out as it enters
+  /* ---------------------------------------------------------------
+     6. Reveal-on-scroll — content fades in and out as it enters
         and leaves the viewport
-    ------------------------------------------------------------------ */
+  ------------------------------------------------------------------ */
   var revealEls = document.querySelectorAll(
     ".feature-block, .tile, .update-card, .lede-block, .section-head, .stat-strip, .partner-list, .timeline, .pull, .contact-grid"
   );
@@ -251,6 +251,9 @@ document.addEventListener("DOMContentLoaded", function () {
     /* ---------- b) API-läge: färdiga inläggsobjekt ---------- */
     function igKort(post) {
       var imageUrl = post.image || post.media_url || "images/gallery-06.jpg";
+      if (imageUrl.indexOf("/api/") === 0) {
+        imageUrl = "https://eucon.onrender.com" + imageUrl;
+      }
       var caption = post.caption || "";
       var permalink = post.permalink || IG_PROFIL;
       var username = post.username || "euconab";
@@ -259,9 +262,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var altText = caption ? caption.replace(/"/g, "&quot;").slice(0, 120) : "Instagram-inlägg";
 
-      /* Rutan öppnar lightboxen i stället för att lämna sidan. Samma
-         data-full-krok som galleriets bilder använder, plus likes och
-         permalänk så att lightboxen kan visa dem vid sidan av bilden. */
       return [
         '<article class="instagram-post">',
         '  <div class="instagram-media-wrap" data-full="' + imageUrl + '"' +
@@ -298,21 +298,34 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       /* en sträng = en länk till ett inlägg; ett objekt = färdig data */
       var lankar = poster
-        .map(function (p) { return typeof p === "string" ? p : (p && !p.image && p.permalink ? p.permalink : null); })
+        .map(function (p) {
+          return typeof p === "string"
+            ? p
+            : (p && !p.image && p.permalink ? p.permalink : null);
+        })
         .filter(Boolean);
 
-      if (lankar.length === poster.length) igRenderaLankar(lankar);
-      else instagramGallery.innerHTML = poster.map(igKort).join('');
+      if (lankar.length === poster.length) {
+        igRenderaLankar(lankar);
+      } else {
+        /* API-läge: ta bort eventuell embed-klass från tidigare länkläge */
+        instagramGallery.classList.remove("instagram-embeds");
+        instagramGallery.innerHTML = poster.map(igKort).join('');
+      }
     }
 
     function igHamta() {
-      fetch('/api/instagram', { cache: 'no-store' })
+      fetch('https://eucon.onrender.com/api/instagram', { cache: 'no-store' })
         .then(function (r) {
           if (!r.ok) throw new Error('Instagram fetch failed');
           return r.json();
         })
-        .then(function (data) { igRendera(data.posts || []); })
-        .catch(function () { igTomt("Flödet kunde inte hämtas just nu."); });
+        .then(function (data) {
+          igRendera(data.posts || []);
+        })
+        .catch(function () {
+          igTomt("Flödet kunde inte hämtas just nu.");
+        });
     }
 
     igHamta();
@@ -458,7 +471,9 @@ document.addEventListener("DOMContentLoaded", function () {
       /* Spannet beror bara på vh-enheter, så det mäts om vid resize i
          stället för varje frame — annars tvingas layout fram i onödan. */
       var stSpan = 0;
-      function stMeasure() { stSpan = stTrack.offsetHeight - stStage.offsetHeight; }
+      function stMeasure() {
+        stSpan = stTrack.offsetHeight - stStage.offsetHeight;
+      }
 
       /* Den råa scrollpositionen sparas vid sidan av det kapitelbundna
          indexet. Kapitlen ska stanna — men bilden och himlen ska aldrig
@@ -508,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
           stSet(stAtmos[s], "--st-on", stSmooth(stClamp(1 - Math.abs(a - s * stStep) / stHalf, 0, 1)), "on" + s);
         }
 
-        /* ---- jorden: stjärnor → klot → städer → rutter → gryning ----
+        /* ---- jorden: stjärnor → klot → städer → rutter → gryning
            Sätts på respektive lager, inte på <section>, så att bara det
            lagret behöver räknas om. Gränserna är andelar av kapitel-
            antalet och följer alltså med om kapitlen blir fler eller färre. */
@@ -535,7 +550,10 @@ document.addEventListener("DOMContentLoaded", function () {
       function stTick(now) {
         stRaf = 0;
         var target = stTargetAct();
-        if (target === null) { stPrev = 0; return; }
+        if (target === null) {
+          stPrev = 0;
+          return;
+        }
         var targetP = stTargetP;
 
         if (stCur === null) {
@@ -558,8 +576,20 @@ document.addEventListener("DOMContentLoaded", function () {
         else stPrev = 0;
       }
 
-      function stKick() { if (!stRaf) { stPrev = 0; stRaf = requestAnimationFrame(stTick); } }
-      function stReset() { stMeasure(); stCache = {}; stCur = null; stCurP = 0; stKick(); }
+      function stKick() {
+        if (!stRaf) {
+          stPrev = 0;
+          stRaf = requestAnimationFrame(stTick);
+        }
+      }
+
+      function stReset() {
+        stMeasure();
+        stCache = {};
+        stCur = null;
+        stCurP = 0;
+        stKick();
+      }
 
       window.addEventListener("scroll", stKick, { passive: true });
       window.addEventListener("resize", stReset);
@@ -583,7 +613,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var frag = document.createDocumentFragment();
         parts.forEach(function (part) {
           if (!part) return;
-          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+          if (/^\s+$/.test(part)) {
+            frag.appendChild(document.createTextNode(" "));
+            return;
+          }
           var w = document.createElement("span");
           w.className = "split-word";
           var inner = document.createElement("span");
@@ -618,7 +651,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var lines = [], top = null;
       probes.forEach(function (s) {
         var y = s.offsetTop;
-        if (top === null || Math.abs(y - top) > 4) { lines.push([]); top = y; }
+        if (top === null || Math.abs(y - top) > 4) {
+          lines.push([]);
+          top = y;
+        }
         lines[lines.length - 1].push(s.textContent);
       });
       el.textContent = "";
@@ -646,51 +682,58 @@ document.addEventListener("DOMContentLoaded", function () {
      11. Avslöjning vid scroll — en gång, aldrig tillbaka
   ------------------------------------------------------------------ */
   function startReveal() {
-  /* Uppdelningen ändrar radbrytningen och därmed sidans höjd. Har man
-     kommit hit via ett ankare från en annan sida har webbläsaren redan
-     hoppat — och hamnar då fel. Notera var vi står innan. */
-  var beforeY = window.scrollY;
+    /* Uppdelningen ändrar radbrytningen och därmed sidans höjd. Har man
+       kommit hit via ett ankare från en annan sida har webbläsaren redan
+       hoppat — och hamnar då fel. Notera var vi står innan. */
+    var beforeY = window.scrollY;
 
-  document.querySelectorAll("[data-split]").forEach(splitHeading);
+    document.querySelectorAll("[data-split]").forEach(splitHeading);
 
-  /* Gå till ankaret igen, men bara om besökaren inte hunnit skrolla själv. */
-  if (location.hash && Math.abs(window.scrollY - beforeY) < 4) {
-    var anchor = null;
-    try { anchor = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) {}
-    if (anchor) {
-      var behavior = document.documentElement.style.scrollBehavior;
-      document.documentElement.style.scrollBehavior = "auto";
-      anchor.scrollIntoView();
-      document.documentElement.style.scrollBehavior = behavior;
+    /* Gå till ankaret igen, men bara om besökaren inte hunnit skrolla själv. */
+    if (location.hash && Math.abs(window.scrollY - beforeY) < 4) {
+      var anchor = null;
+      try {
+        anchor = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      } catch (e) {}
+      if (anchor) {
+        var behavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = "auto";
+        anchor.scrollIntoView();
+        document.documentElement.style.scrollBehavior = behavior;
+      }
     }
-  }
 
-  var inView = document.querySelectorAll("[data-reveal], [data-split]");
-  if (inView.length) {
-    if (motionOff || !("IntersectionObserver" in window)) {
-      inView.forEach(function (el) { el.classList.add("is-in"); });
-    } else {
-      inView.forEach(function (el) {
-        var d = el.getAttribute("data-reveal-delay");
-        if (d) el.style.setProperty("--reveal-delay", d + "ms");
-      });
-      var revealIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-in");
-          revealIO.unobserve(entry.target);
+    var inView = document.querySelectorAll("[data-reveal], [data-split]");
+    if (inView.length) {
+      if (motionOff || !("IntersectionObserver" in window)) {
+        inView.forEach(function (el) { el.classList.add("is-in"); });
+      } else {
+        inView.forEach(function (el) {
+          var d = el.getAttribute("data-reveal-delay");
+          if (d) el.style.setProperty("--reveal-delay", d + "ms");
         });
-      }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-      inView.forEach(function (el) { revealIO.observe(el); });
+        var revealIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-in");
+            revealIO.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+        inView.forEach(function (el) { revealIO.observe(el); });
+      }
     }
-  }
   }
 
   /* Fonterna påverkar var raderna bryts, så vänta in dem — men inte
      hur länge som helst. */
   if (document.fonts && document.fonts.ready) {
     var started = false;
-    var go = function () { if (!started) { started = true; startReveal(); } };
+    var go = function () {
+      if (!started) {
+        started = true;
+        startReveal();
+      }
+    };
     document.fonts.ready.then(go);
     setTimeout(go, 1200);
   } else {
@@ -713,7 +756,10 @@ document.addEventListener("DOMContentLoaded", function () {
         /* årtal räknas från strax under, annars från noll */
         var from = target > 1000 ? target - 24 : 0;
 
-        if (motionOff) { el.textContent = target + suffix; return; }
+        if (motionOff) {
+          el.textContent = target + suffix;
+          return;
+        }
 
         var dur = 1500, t0 = 0;
         function step(now) {
@@ -773,8 +819,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* bara riktiga pekare — annars bromsar bandet vid varje tryckning */
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      row.addEventListener("pointerenter", function () { want = REEL_SPEED * REEL_SLOW; });
-      row.addEventListener("pointerleave", function () { want = REEL_SPEED; });
+      row.addEventListener("pointerenter", function () {
+        want = REEL_SPEED * REEL_SLOW;
+      });
+      row.addEventListener("pointerleave", function () {
+        want = REEL_SPEED;
+      });
     }
 
     function tick(now) {
@@ -796,7 +846,12 @@ document.addEventListener("DOMContentLoaded", function () {
       else prev = 0;
     }
 
-    function start() { if (!raf) { prev = 0; raf = requestAnimationFrame(tick); } }
+    function start() {
+      if (!raf) {
+        prev = 0;
+        raf = requestAnimationFrame(tick);
+      }
+    }
 
     /* rulla bara medan raden syns — annars bränner den bildrutor i onödan */
     if ("IntersectionObserver" in window) {
@@ -837,7 +892,9 @@ document.addEventListener("DOMContentLoaded", function () {
      bort <img> i stället, så syns initialerna som ligger under.
   ------------------------------------------------------------------ */
   document.querySelectorAll(".vd-avatar img").forEach(function (img) {
-    function fallBack() { if (img.parentNode) img.parentNode.removeChild(img); }
+    function fallBack() {
+      if (img.parentNode) img.parentNode.removeChild(img);
+    }
     img.addEventListener("error", fallBack);
     /* redan färdigladdad men trasig när skriptet hinner hit */
     if (img.complete && img.naturalWidth === 0) fallBack();
@@ -872,10 +929,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (folderArrows) {
-      folderBtn.addEventListener("mouseenter", function () { spela("is-spin"); });
-      folderBtn.addEventListener("mouseleave", function () { spela("is-rewind"); });
-      folderBtn.addEventListener("focus", function () { spela("is-spin"); });
-      folderBtn.addEventListener("blur", function () { spela("is-rewind"); });
+      folderBtn.addEventListener("mouseenter", function () {
+        spela("is-spin");
+      });
+      folderBtn.addEventListener("mouseleave", function () {
+        spela("is-rewind");
+      });
+      folderBtn.addEventListener("focus", function () {
+        spela("is-spin");
+      });
+      folderBtn.addEventListener("blur", function () {
+        spela("is-rewind");
+      });
 
       /* stada bort klassen nar varvet ar klart, sa nasta hover borjar rent */
       folderArrows.addEventListener("animationend", function () {
@@ -951,7 +1016,9 @@ document.addEventListener("DOMContentLoaded", function () {
      16. Inladdning + magnetiska knappar
   ------------------------------------------------------------------ */
   requestAnimationFrame(function () {
-    requestAnimationFrame(function () { document.body.classList.add("is-ready"); });
+    requestAnimationFrame(function () {
+      document.body.classList.add("is-ready");
+    });
   });
 
   if (!motionOff && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {

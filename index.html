@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eucon | Vi skapar framtidens internationella samarbeten</title>
 <meta name="description" content="Eucon är ett svenskt konsultföretag som sedan 2004 hjälper skolor, kommuner och organisationer att genomföra framgångsrika Erasmus+ och EU-projekt.">
@@ -14,27 +15,30 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a href="index.html" class="mark">
-      <img src="images/EUCONLOGO.png" alt="Eucon" class="logo-img">
-    </a>
+    <a href="index.html" class="mark"><img src="images/EUCONLOGO.png" alt="Eucon" class="logo-img"></a>
     <nav class="nav-mid">
-      <a href="index.html" aria-current="page">Hem</a>
-      <a href="om-oss.html">Om oss</a>
-      <a href="galleri.html">Galleri</a>
-      <a href="kontakt.html">Kontakt</a>
+      <a href="index.html" data-section="index" aria-current="page">Hem</a>
+      <a href="om-oss.html" data-section="om_oss">Om oss</a>
+      <a href="galleri.html" data-section="galleri">Galleri</a>
+      <a href="kontakt.html" data-section="kontakt">Kontakt</a>
     </nav>
     <div class="nav-right">
-      <a href="kontakt.html" class="nav-cta">Kontakta oss</a>
+      <a href="kontakt.html" class="nav-cta" data-section="kontakt">Kontakta oss</a>
+      <div class="language-switcher lang-inline" role="group" aria-label="Välj språk">
+      <a class="language-option" data-lang="sv" href="index.html" aria-label="Svenska" title="Svenska"><img src="images/SWE.png" alt="Svenska"></a>
+      <a class="language-option" data-lang="en" href="index-en.html" aria-label="English" title="English"><img src="images/EN.png" alt="English"></a>
+      <a class="language-option" data-lang="tr" href="index-tr.html" aria-label="Türkçe" title="Türkçe"><img src="images/TR.png" alt="Türkçe"></a>
+    </div>
       <button class="nav-toggle" aria-label="Öppna meny" aria-expanded="false">
         <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
       </button>
     </div>
     <nav class="nav-links" id="navLinks">
-      <a href="index.html" aria-current="page">Hem</a>
-      <a href="om-oss.html">Om oss</a>
-      <a href="galleri.html">Galleri</a>
-      <a href="kontakt.html">Kontakt</a>
-      <a href="kontakt.html" class="nav-cta-mobile">Kontakta oss</a>
+      <a href="index.html" data-section="index" aria-current="page">Hem</a>
+      <a href="om-oss.html" data-section="om_oss">Om oss</a>
+      <a href="galleri.html" data-section="galleri">Galleri</a>
+      <a href="kontakt.html" data-section="kontakt">Kontakt</a>
+      <a href="kontakt.html" class="nav-cta-mobile" data-section="kontakt">Kontakta oss</a>
     </nav>
   </div>
 </header>
@@ -44,7 +48,7 @@
 
   <!-- ============================================================ 1 · HERO -->
   <section class="hero-xl">
-<video src="https://res.cloudinary.com/uc3vrp1e/video/upload/v1789237637/StockholmView-web.mp4" poster="images/StockholmView-poster.jpg" preload="auto" autoplay muted loop playsinline aria-label="Drönarvy över Stockholm"></video>
+<video src="https://res.cloudinary.com/uc3vrp1e/video/upload/v1789237637/StockholmView-web.mp4" preload="auto" autoplay muted loop playsinline aria-label="Drönarvy över Stockholm"></video>
     <div class="hero-xl-content">
       <div class="wrap">
         <h1 data-split="lines">Vi skapar framtidens internationella samarbeten.</h1>
@@ -75,7 +79,7 @@
       </div>
 
       <ul class="metrics" data-reveal>
-        <li><strong data-count="20" data-suffix="+">0</strong><span>år av EU-projekt</span></li>
+        <li><strong data-count="1000" data-suffix="+">0</strong><span>år av EU-projekt</span></li>
         <li><strong data-count="6" data-suffix="+">0</strong><span>länder i vårt nätverk</span></li>
         <li><strong data-count="2004">0</strong><span>sedan starten</span></li>
         <li><strong class="metric-symbol">&#8734;</strong><span>möjligheter att växa</span></li>
@@ -248,22 +252,6 @@
     </div>
   </section>
 
-  <!-- ========================================================= 5 · NÄTVERK -->
-  <section class="network">
-    <div class="wrap network-grid">
-      <div class="network-head">
-        <h2 data-split="words">Vi har ett brett sammarbete med skolor, kommuner och organisationer.</h2>
-        <p data-reveal data-reveal-delay="180">Sedan 2004 har vi byggt upp ett nätverk som sträcker sig från Sverige till andra delar av Europa.</p>
-      </div>
-      <ul class="network-list">
-        <li data-reveal>Kommuner och utbildningsförvaltningar</li>
-        <li data-reveal data-reveal-delay="80">Grundskolor, gymnasieskolor och vuxenutbildningar</li>
-        <li data-reveal data-reveal-delay="160">Folkhögskolor och yrkeshögskolor</li>
-        <li data-reveal data-reveal-delay="240">Lantbruks- och yrkesorganisationer</li>
-        <li data-reveal data-reveal-delay="320">Stiftelser, föreningar och samhällsaktörer</li>
-      </ul>
-    </div>
-  </section>
 
   <!-- ========================================================= 6 · AVSLUT -->
   <section class="closing">
@@ -307,5 +295,7 @@
 </footer>
 
 <script type="module" src="script.js?v=20260912u"></script>
+<script type="module" src="index-i18n.js"></script>
+<script src="language.js"></script>
 </body>
 </html>

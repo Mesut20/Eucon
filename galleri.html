@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galleri | Eucon</title>
 <meta name="description" content="Bilder från Eucons Erasmus+ och EU-projekt. Studiebesök, utbyten och möten runt om i Europa.">
@@ -14,27 +15,30 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a href="index.html" class="mark">
-      <img src="images/EUCONLOGO.png" alt="Eucon" class="logo-img">
-    </a>
+    <a href="index.html" class="mark"><img src="images/EUCONLOGO.png" alt="Eucon" class="logo-img"></a>
     <nav class="nav-mid">
-      <a href="index.html">Hem</a>
-      <a href="om-oss.html">Om oss</a>
-      <a href="galleri.html" aria-current="page">Galleri</a>
-      <a href="kontakt.html">Kontakt</a>
+      <a href="index.html" data-section="index">Hem</a>
+      <a href="om-oss.html" data-section="om_oss">Om oss</a>
+      <a href="galleri.html" data-section="galleri" aria-current="page">Galleri</a>
+      <a href="kontakt.html" data-section="kontakt">Kontakt</a>
     </nav>
     <div class="nav-right">
-      <a href="kontakt.html" class="nav-cta">Kontakta oss</a>
+      <a href="kontakt.html" class="nav-cta" data-section="kontakt">Kontakta oss</a>
+      <div class="language-switcher lang-inline" role="group" aria-label="Välj språk">
+      <a class="language-option" data-lang="sv" href="galleri.html" aria-label="Svenska" title="Svenska"><img src="images/SWE.png" alt="Svenska"></a>
+      <a class="language-option" data-lang="en" href="galleri-en.html" aria-label="English" title="English"><img src="images/EN.png" alt="English"></a>
+      <a class="language-option" data-lang="tr" href="galleri-tr.html" aria-label="Türkçe" title="Türkçe"><img src="images/TR.png" alt="Türkçe"></a>
+    </div>
       <button class="nav-toggle" aria-label="Öppna meny" aria-expanded="false">
         <span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
       </button>
     </div>
     <nav class="nav-links" id="navLinks">
-      <a href="index.html">Hem</a>
-      <a href="om-oss.html">Om oss</a>
-      <a href="galleri.html" aria-current="page">Galleri</a>
-      <a href="kontakt.html">Kontakt</a>
-      <a href="kontakt.html" class="nav-cta-mobile">Kontakta oss</a>
+      <a href="index.html" data-section="index">Hem</a>
+      <a href="om-oss.html" data-section="om_oss">Om oss</a>
+      <a href="galleri.html" data-section="galleri" aria-current="page">Galleri</a>
+      <a href="kontakt.html" data-section="kontakt">Kontakt</a>
+      <a href="kontakt.html" class="nav-cta-mobile" data-section="kontakt">Kontakta oss</a>
     </nav>
   </div>
 </header>
@@ -43,7 +47,7 @@
 <main>
 
   <section class="hero-xl hero-md">
-<video src="https://res.cloudinary.com/uc3vrp1e/video/upload/v1789237643/CityView.mp4" poster="images/CityView-poster.jpg" preload="auto" autoplay muted loop playsinline aria-label="Vy över Stockholms stadskärna"></video>
+<video src="images\CityView (2).mp4" preload="auto" autoplay muted loop playsinline aria-label="Vy över Stockholms stadskärna"></video>
     <div class="hero-xl-content">
       <div class="wrap">
         <div class="eyebrow-line">Galleri</div>
@@ -319,5 +323,6 @@
 </footer>
 
 <script type="module" src="script.js?v=20260912u"></script>
+<script src="language.js"></script>
 </body>
 </html>

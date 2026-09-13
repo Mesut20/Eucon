@@ -255,6 +255,13 @@ ul,ol{margin:0;padding:0;list-style:none;}
 }
 .hero-md h1{font-size:clamp(2.1rem,4.4vw,3.4rem);}
 
+/* hero med fast bildproportioner — används på kontakt-sidor med foto */
+.hero-photo{
+  height:auto !important;
+  aspect-ratio:16/9;
+  max-height:75vh;
+}
+
 /* -------------------------------------------------- homepage editorial rhythm */
 .editorial-intro{
   background:#2b2d30;color:var(--ivory);padding:clamp(88px,11vw,150px) 0 54px;
@@ -1918,4 +1925,69 @@ body.vault-open{overflow:hidden;}
   min-width:0 !important;
   width:100% !important;
   max-width:540px !important;
+}
+
+/* ── Language switcher (flaggor) ─────────────────────────────────────────── */
+.language-switcher{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  flex:none;
+  margin-left:-8px;
+}
+/* Inuti nav-right: horisontell rad */
+.language-switcher.lang-inline{
+  flex-direction:row;
+  gap:5px;
+  margin-left:4px;
+}
+.language-switcher a.language-option{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:30px;
+  border-radius:2px;
+  overflow:hidden;
+  opacity:.5;
+  transition:opacity .2s ease, transform .2s ease, box-shadow .2s ease;
+  box-shadow:0 1px 3px rgba(0,0,0,0.18);
+  text-decoration:none;
+}
+.language-switcher a.language-option img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.language-switcher a.language-option:hover{
+  opacity:.85;
+  transform:scale(1.1);
+}
+.language-switcher a.language-option.is-active{
+  opacity:1;
+  box-shadow:0 0 0 1.5px var(--gold), 0 1px 4px rgba(0,0,0,0.22);
+  transform:scale(1.08);
+}
+/* På ljus header */
+.site-header.header-on-light .language-switcher a.language-option{
+  box-shadow:0 1px 3px rgba(0,0,0,0.12);
+}
+.site-header.header-on-light .language-switcher a.language-option.is-active{
+  box-shadow:0 0 0 1.5px var(--gold),0 1px 4px rgba(0,0,0,0.14);
+}
+@media(max-width:900px){
+  .language-switcher{flex-direction:row;gap:4px;}
+  .language-switcher a.language-option{width:38px;height:26px;}
+}
+
+/* ── Ken Burns hero-bild (kontakt-sidor) ─────────────────────────────────── */
+.hero-kenburns {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: center center;
 }

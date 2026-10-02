@@ -92,7 +92,11 @@ ul,ol{margin:0;padding:0;list-style:none;}
   box-shadow:none;
   transition:transform .25s ease;
 }
-.site-header .mark{left:-12px;}
+.site-header .mark{
+  left:-12px;
+  transform: translateX(-80px);
+}
+
 .site-header .mark::after,
 .footer-top .mark::after{
   content:"";position:absolute;top:-40%;left:-60%;width:34%;height:180%;
@@ -101,7 +105,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
 }
 .site-header .mark:hover,
 .footer-top .mark:hover{
-  transform:scale(1.04);
+  transform:translateX(-80px) scale(1.04);
 }
 .site-header .mark:hover::after,
 .footer-top .mark:hover::after{transform:skewX(-20deg) translateX(520%);}
@@ -129,7 +133,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:82px;gap:24px;}
 .site-header .mark{color:var(--onyx);}
 .nav-mid{display:flex;align-items:center;gap:clamp(20px,3vw,40px);flex:1;justify-content:center;}
-.nav-mid a{position:relative;overflow:hidden;color:var(--ivory);font-size:1.05rem;padding:13px 21px;border-radius:0;transition:color .25s ease, background .25s ease, transform .25s ease;}
+.nav-mid a{position:relative;overflow:hidden;color:var(--ivory);font-size:1.25rem;padding:18px 24px;border-radius:0;transition:color .25s ease, background .25s ease, transform .25s ease;}
 .nav-mid a::before{content:"";position:absolute;top:0;left:-120%;width:48%;height:100%;background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.10), rgba(255,255,255,0));transform:skewX(-20deg);transition:left .6s ease;opacity:.7;}
 .nav-mid a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;background:var(--ivory);border-radius:0;transform:scaleX(0);transform-origin:center;transition:transform .25s ease;}
 .nav-mid a:hover, .nav-mid a[aria-current="page"]{color:var(--ivory);background:transparent;}
@@ -147,12 +151,12 @@ ul,ol{margin:0;padding:0;list-style:none;}
 .nav-right{display:flex;align-items:center;gap:16px;}
 .nav-cta{
   position:relative;overflow:hidden;
-  padding:12px 24px;
+  padding:18px 32px;
   border-radius:0;
   border:1px solid var(--gold);
   color:var(--onyx);
   background:var(--gold);
-  font-size:0.85rem;
+  font-size:1.15rem;
   font-weight:700;
   white-space:nowrap;
   box-shadow:0 8px 18px rgba(200,138,29,0.2);
@@ -1927,27 +1931,24 @@ body.vault-open{overflow:hidden;}
   max-width:540px !important;
 }
 
-/* ── Language switcher (flaggor) ─────────────────────────────────────────── */
+/* ── Language switcher (flaggor) – horisontell rad till höger om CTA ───── */
 .language-switcher{
   display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:2px;
-  flex:none;
-  margin-left:-8px;
-}
-/* Inuti nav-right: horisontell rad */
-.language-switcher.lang-inline{
   flex-direction:row;
+  align-items:center;
+  justify-content:center;
   gap:5px;
-  margin-left:4px;
+  flex:none;
+  margin:0;
+  padding:0;
+  transform: translateX(178px);
 }
 .language-switcher a.language-option{
   display:flex;
   align-items:center;
   justify-content:center;
-  width:44px;
-  height:30px;
+  width:56px;
+  height:36px;
   border-radius:2px;
   overflow:hidden;
   opacity:.5;
@@ -1955,6 +1956,11 @@ body.vault-open{overflow:hidden;}
   box-shadow:0 1px 3px rgba(0,0,0,0.18);
   text-decoration:none;
 }
+.language-switcher a.language-option[data-lang="en"] img{
+  transform: scale(1.18);
+  transform-origin: center;
+}
+
 .language-switcher a.language-option img{
   display:block;
   width:100%;
@@ -1977,9 +1983,16 @@ body.vault-open{overflow:hidden;}
 .site-header.header-on-light .language-switcher a.language-option.is-active{
   box-shadow:0 0 0 1.5px var(--gold),0 1px 4px rgba(0,0,0,0.14);
 }
+/* Mobil: behåll horisontell rad, något mindre */
 @media(max-width:900px){
-  .language-switcher{flex-direction:row;gap:4px;}
-  .language-switcher a.language-option{width:38px;height:26px;}
+  .language-switcher{
+    flex-direction:row;
+    gap:4px;
+  }
+  .language-switcher a.language-option{
+    width:32px;
+    height:22px;
+  }
 }
 
 /* ── Ken Burns hero-bild (kontakt-sidor) ─────────────────────────────────── */

@@ -908,83 +908,86 @@ document.addEventListener("DOMContentLoaded", function () {
      forst har — och dess metapanel forblir dold eftersom galleri-
      rutorna saknar data-permalink.
   ------------------------------------------------------------------ */
-  var folderBtn = document.querySelector(".folder-btn");
+  var folderBtn = document.querySelector(".folder-btn:not(.ig-folder-btn)");
   var vault = document.getElementById("galleryVault");
+  var igFolderBtn = document.querySelector(".ig-folder-btn");
+  var igVault = document.getElementById("instagramVault");
 
-  if (folderBtn && vault) {
-    var vaultClose = vault.querySelector(".vault-close");
+  function setupVault(btn, vaultEl) {
+    if (!btn || !vaultEl) return;
+    var vaultClose = vaultEl.querySelector(".vault-close");
     var vaultOpener = null;
-    var folderArrows = folderBtn.querySelector(".folder-arrows");
+    var folderArrows = btn.querySelector(".folder-arrows");
 
-    /* ---- pilarna: ett varv fram vid hover, ett varv tillbaka vid utgang ----
-       Fargbytet skoter CSS sjalv via :hover. Rotationen behover JS, for
-       med enbart :hover finns inget lage att spela det bakatgaende varvet
-       i — regeln slutar galla i samma ogonblick musen lamnar. */
     function spela(klass) {
-      folderBtn.classList.remove("is-spin", "is-rewind");
-      /* framtvinga omflode, annars raknas klassbytet som ingen andring
-         och animationen startar inte om vid snabba in- och utrorelser */
-      void folderBtn.offsetWidth;
-      folderBtn.classList.add(klass);
+      btn.classList.remove("is-spin", "is-rewind");
+      void btn.offsetWidth;
+      btn.classList.add(klass);
     }
 
     if (folderArrows) {
-      folderBtn.addEventListener("mouseenter", function () {
-        spela("is-spin");
-      });
-      folderBtn.addEventListener("mouseleave", function () {
-        spela("is-rewind");
-      });
-      folderBtn.addEventListener("focus", function () {
-        spela("is-spin");
-      });
-      folderBtn.addEventListener("blur", function () {
-        spela("is-rewind");
-      });
-
-      /* stada bort klassen nar varvet ar klart, sa nasta hover borjar rent */
+      btn.addEventListener("mouseenter", function () { spela("is-spin"); });
+      btn.addEventListener("mouseleave", function () { spela("is-rewind"); });
+      btn.addEventListener("focus", function () { spela("is-spin"); });
+      btn.addEventListener("blur", function () { spela("is-rewind"); });
       folderArrows.addEventListener("animationend", function () {
-        folderBtn.classList.remove("is-spin", "is-rewind");
+        btn.classList.remove("is-spin", "is-rewind");
       });
     }
 
-    /* ---- modalen ---- */
     function openVault() {
       vaultOpener = document.activeElement;
-      vault.hidden = false;
-      /* Framtvinga omflode i stallet for requestAnimationFrame: rAF kan
-         hoppas over i en bakgrundsflik, och da hade modalen blivit
-         liggande pa opacity 0 — oppen men osynlig. */
-      void vault.offsetWidth;
-      vault.classList.add("open");
-      folderBtn.setAttribute("aria-expanded", "true");
+      vaultEl.hidden = false;
+      void vaultEl.offsetWidth;
+      vaultEl.classList.add("open");
+      btn.setAttribute("aria-expanded", "true");
       document.body.classList.add("vault-open");
       if (vaultClose) vaultClose.focus();
+      /* Instagram-vault: tvinga fram embed-skript om länkläge används */
+      if (vaultEl.id === "instagramVault") {
+        var embeds = vaultEl.querySelectorAll(".instagram-media");
+        if (embeds.length) {
+          if (window.instgrm && window.instgrm.Embeds) {
+            window.instgrm.Embeds.process();
+          } else if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {
+            var s = document.createElement("script");
+            s.async = true;
+            s.src = "https://www.instagram.com/embed.js";
+            s.onload = function () {
+              if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+            };
+            document.body.appendChild(s);
+          }
+        }
+      }
     }
 
     function closeVault() {
-      vault.classList.remove("open");
-      folderBtn.setAttribute("aria-expanded", "false");
+      vaultEl.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
       document.body.classList.remove("vault-open");
       window.setTimeout(function () {
-        if (!vault.classList.contains("open")) vault.hidden = true;
+        if (!vaultEl.classList.contains("open")) vaultEl.hidden = true;
       }, 300);
       if (vaultOpener && vaultOpener.focus) vaultOpener.focus();
       vaultOpener = null;
     }
 
-    folderBtn.addEventListener("click", openVault);
+    btn.addEventListener("click", openVault);
     if (vaultClose) vaultClose.addEventListener("click", closeVault);
-    vault.addEventListener("click", function (e) {
-      if (e.target === vault) closeVault();
+    vaultEl.addEventListener("click", function (e) {
+      if (e.target === vaultEl) closeVault();
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key !== "Escape" || vault.hidden) return;
-      /* ligger lightboxen over ska Escape stanga den forst */
+      if (e.key !== "Escape" || vaultEl.hidden) return;
       var lb = document.querySelector(".lightbox.open");
       if (!lb) closeVault();
     });
   }
+
+  setupVault(folderBtn, vault);
+  setupVault(igFolderBtn, igVault);
+
 
   /* ---------------------------------------------------------------
      17. Hero-video — avkoda bara när den syns

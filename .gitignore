@@ -1,3 +1,6 @@
 
 .env
 images/*.mp4
+eucon-tests/
+TEST_SUITE_INFO.md
+TESTING_README.md

@@ -106,6 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var isOpen = links.classList.contains("open");
       isOpen ? closeSidebar() : openSidebar();
     });
+    var closeBtn = links.querySelector(".nav-close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeSidebar);
+    }
     links.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", closeSidebar);
     });

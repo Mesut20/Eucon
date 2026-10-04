@@ -103,19 +103,34 @@ document.addEventListener("DOMContentLoaded", function () {
   var isMobile = window.matchMedia("(max-width:900px)");
 
   if (toggle && links) {
-    if (isMobile.matches) animate(links, { x: "100%" }, { duration: 0 });
+    if (isMobile.matches) animate(links, { x: "110%" }, { duration: 0 });
     toggle.addEventListener("click", function () {
       var isOpen = links.classList.contains("open");
       isOpen ? closeSidebar() : openSidebar();
     });
     var closeBtn = links.querySelector(".nav-close");
     if (closeBtn) {
-      closeBtn.addEventListener("click", closeSidebar);
+      closeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSidebar();
+      });
     }
     links.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", closeSidebar);
+      a.addEventListener("click", function (e) {
+        // Only close if sidebar is open
+        if (links.classList.contains("open")) {
+          closeSidebar();
+        }
+      });
     });
-    if (backdrop) backdrop.addEventListener("click", closeSidebar);
+    if (backdrop) {
+      backdrop.addEventListener("click", function (e) {
+        if (links.classList.contains("open")) {
+          closeSidebar();
+        }
+      });
+    }
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && links.classList.contains("open")) closeSidebar();
     });
@@ -1051,3 +1066,47 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+    /* Contact form handling */
+    var contactForm = document.querySelector(".contact-form");
+    if (contactForm) {
+      contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        var submitBtn = contactForm.querySelector(".cf-submit");
+        var feedback = contactForm.querySelector(".cf-feedback");
+        var originalBtnText = submitBtn.textContent;
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Skickar...";
+        
+        var formData = new FormData(contactForm);
+        
+        fetch(contactForm.action, {
+          method: "POST",
+          body: formData
+        })
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+          feedback.hidden = false;
+          if (data.success) {
+            feedback.className = "cf-feedback cf-success";
+            feedback.textContent = "Tack! Ditt meddelande har skickats till info@eucon.se. Vi återkommer inom 1-2 arbetsdagar.";
+            contactForm.reset();
+          } else {
+            feedback.className = "cf-feedback cf-error";
+            feedback.textContent = data.message || "Ett fel uppstod. Försök igen senare.";
+          }
+        })
+        .catch(function (error) {
+          feedback.hidden = false;
+          feedback.className = "cf-feedback cf-error";
+          feedback.textContent = "Ett fel uppstod. Försök igen senare.";
+          console.error("Form submission error:", error);
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        });
+      });
+    }

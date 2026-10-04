@@ -100,7 +100,10 @@
         </div>
 
         <!-- Right: contact form -->
-        <form class="contact-form" data-reveal data-reveal-delay="120" action="#" method="post" novalidate>
+        <form class="contact-form" data-reveal data-reveal-delay="120" action="contact-handler.php" method="post" novalidate>
+          <!-- Honeypot field - hidden from users, only bots fill it -->
+          <input type="text" name="website" style="display:none; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
+          
           <div class="cf-row cf-row-2">
             <div class="cf-field">
               <label for="cf-name">Name <span class="cf-req">*</span></label>

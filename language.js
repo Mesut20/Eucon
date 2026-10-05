@@ -29,23 +29,23 @@
   };
 
   /* ── Bestäm nuvarande sida och språk ──────────────────────────────── */
-  function detectSection(filename) {
-    if (/^index(-en|-tr)?\.html/.test(filename)) return 'index';
-    if (/^om-oss/.test(filename))                return 'om_oss';
-    if (/^galleri/.test(filename))               return 'galleri';
-    if (/^kontakt/.test(filename))               return 'kontakt';
+  function detectSection(pathname) {
+    if (/index(-en|-tr)?$/.test(pathname) || pathname === '/' || pathname === '') return 'index';
+    if (/om-oss/.test(pathname))                return 'om_oss';
+    if (/galleri/.test(pathname))               return 'galleri';
+    if (/kontakt/.test(pathname))               return 'kontakt';
     return 'index';
   }
 
-  function detectLangFromFile(filename) {
-    if (/-en\.html/.test(filename)) return 'en';
-    if (/-tr\.html/.test(filename)) return 'tr';
+  function detectLangFromFile(pathname) {
+    if (/-en\/?$/.test(pathname)) return 'en';
+    if (/-tr\/?$/.test(pathname)) return 'tr';
     return 'sv';
   }
 
-  const currentFile    = window.location.pathname.split('/').pop() || 'index.html';
-  const currentSection = detectSection(currentFile);
-  const fileLang       = detectLangFromFile(currentFile);
+  const currentPath    = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  const currentSection = detectSection(currentPath);
+  const fileLang       = detectLangFromFile(currentPath);
 
   /* Spara/läs från localStorage — filens språk vinner alltid */
   localStorage.setItem('eucon_lang', fileLang);
@@ -116,23 +116,23 @@
 
     document.querySelectorAll('footer .footer-col a').forEach(function (a) {
       const href = (a.getAttribute('href') || '').toLowerCase();
-      if (href.startsWith('tel:') || href.startsWith('mailto:')) return;
+      if (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('http')) return;
 
-      /* Matcha mot kända sidor */
-      if (/index(-en|-tr)?\.html/.test(href) || href === 'index.html') {
-        a.href = p.index[lang];
-        a.textContent = lb.home;
+      /* Matcha mot kända sidor (utan .html extension) */
+      if (/^index(-en|-tr)?$/.test(href) || href === '' || href === '/') {
+        a.href = PAGES.index[lang];
+        a.textContent = NAV_LABELS[lang].home;
       } else if (/om-oss/.test(href)) {
-        a.href = p.om_oss[lang];
-        a.textContent = lb.about;
+        a.href = PAGES.om_oss[lang];
+        a.textContent = NAV_LABELS[lang].about;
       } else if (/galleri/.test(href)) {
-        a.href = p.galleri[lang];
-        a.textContent = lb.gallery;
+        a.href = PAGES.galleri[lang];
+        a.textContent = NAV_LABELS[lang].gallery;
       } else if (/kontakt/.test(href)) {
-        a.href = p.kontakt[lang];
+        a.href = PAGES.kontakt[lang];
         /* Behåll e-posttext om det är info@... */
         if (!a.textContent.includes('@')) {
-          a.textContent = lb.contact;
+          a.textContent = NAV_LABELS[lang].contact;
         }
       }
     });

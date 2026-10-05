@@ -15,7 +15,7 @@
 
   /* ── Sidmappning per sektion ──────────────────────────────────────── */
   const PAGES = {
-    index:   { sv: 'index',    en: 'index-en',    tr: 'index-tr'    },
+    index:   { sv: '/',      en: '/-en',      tr: '/-tr'      },
     om_oss:  { sv: 'om-oss',   en: 'om-oss-en',   tr: 'om-oss-tr'   },
     galleri: { sv: 'galleri',  en: 'galleri-en',  tr: 'galleri-tr'  },
     kontakt: { sv: 'kontakt',  en: 'kontakt-en',  tr: 'kontakt-tr'  },

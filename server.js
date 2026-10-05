@@ -6,16 +6,16 @@ const nodemailer = require('nodemailer');
 
 const rootDir = __dirname;
 
-/* Läser .env om den finns (Node 20.6+). Filen ligger i .gitignore. */
+
 if (typeof process.loadEnvFile === 'function') {
   try { process.loadEnvFile(path.join(rootDir, '.env')); } catch (e) { /* ingen .env */ }
 }
 
-/* E-postkonfiguration för Loopia */
+
 const mailTransporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST || 'mailcluster.loopia.se',
   port: parseInt(process.env.MAIL_PORT || '587'),
-  secure: false, // TLS, inte SSL
+  secure: false, 
   auth: {
     user: process.env.MAIL_USER || 'info@eucon.se',
     pass: process.env.MAIL_PASS || ''
@@ -24,46 +24,23 @@ const mailTransporter = nodemailer.createTransport({
 
 const port = Number(process.env.PORT || 3000);
 
-/* ---------------------------------------------------------------------------
-   Instagram-flöde
 
-   Meta stängde Basic Display API den 4 december 2024. Sedan dess finns ingen
-   väg att läsa ett konto — inte ens ett öppet — utan en access-token, och
-   instagram.com blockerar dessutom anrop från webbläsaren via CORS. Hämtningen
-   måste därför ske här på servern med en token som kontot självt utfärdat en
-   gång. Besökaren loggar aldrig in på något.
-
-   Sätt dessa innan start:
-     INSTAGRAM_ACCOUNT_ID    – IG-användar-ID för @euconab (Företag/Skapare)
-     INSTAGRAM_ACCESS_TOKEN  – långlivad token (~60 dygn, går att förnya)
-
-   Saknas de serveras instagram-feed.json, som också fungerar som varm cache
-   när API:et är nere.
---------------------------------------------------------------------------- */
 const instagramAccountId = process.env.INSTAGRAM_ACCOUNT_ID || 'me';
 let instagramAccessToken = process.env.INSTAGRAM_ACCESS_TOKEN || '';
 const fallbackFeedPath = path.join(rootDir, 'instagram-feed.json');
 const envPath = path.join(rootDir, '.env');
 
-/* ---------------------------------------------------------------------------
-   Tokenförnyelse
 
-   En långlivad token gäller 60 dygn. Meta låter den bytas mot en ny med samma
-   livslängd så länge den är minst 24 timmar gammal och inte hunnit gå ut.
-   Vi förnyar var sjunde dag: rikligt med marginal om servern skulle stå still
-   en period, utan att slösa anrop. Den nya token skrivs tillbaka till .env så
-   att den överlever en omstart.
---------------------------------------------------------------------------- */
 const TOKEN_REFRESH_MS = 7 * 24 * 60 * 60 * 1000;
 
 /* =========================================================================
    SPAM & BOT PROTECTION
 ========================================================================= */
-const ipSubmissions = new Map(); // Lagra inlämningar per IP för rate limiting
-const RATE_LIMIT = { max: 5, windowMs: 60 * 60 * 1000 }; // 5 per timme per IP
-const MIN_TIME_BETWEEN_SUBMISSIONS = 3000; // Minst 3 sekunder mellan inlämningar
-const MAX_FIELD_LENGTH = 5000; // Max längd på fält
-const MAX_MESSAGE_LENGTH = 10000; // Max längd på meddelande
+const ipSubmissions = new Map(); 
+const RATE_LIMIT = { max: 5, windowMs: 60 * 60 * 1000 }; 
+const MIN_TIME_BETWEEN_SUBMISSIONS = 3000; 
+const MAX_FIELD_LENGTH = 5000;
+const MAX_MESSAGE_LENGTH = 10000; 
 
 function getClientIp(req) {
   // Hantera proxies och CloudFlare
@@ -142,9 +119,9 @@ async function refreshInstagramToken() {
   }
 }
 
-const FEED_TTL_MS = 15 * 60 * 1000;   /* hur länge ett svar återanvänds  */
-const FEED_PAGE_SIZE = 100;           /* max som Graph API ger per sida  */
-const FEED_MAX_PAGES = 50;            /* skydd mot en trasig paging-loop */
+const FEED_TTL_MS = 15 * 60 * 1000;   
+const FEED_PAGE_SIZE = 100;           
+const FEED_MAX_PAGES = 50;            
 
 let feedCache = { at: 0, payload: null };
 let feedInFlight = null;
@@ -186,11 +163,7 @@ function normalisePost(post) {
   return {
     id: post.id,
     caption: post.caption || '',
-    /* Bilden serveras via vår egen proxy i stället för direkt från
-       scontent.cdninstagram.com. Tre skäl: annonsblockerare och webbläsarnas
-       spårningsskydd blockerar fbcdn-domänerna, Instagrams bild-URL:er är
-       signerade och slutar fungera efter en tid, och besökarens webbläsare
-       behöver då aldrig kontakta Meta. */
+   
     image: bild ? '/api/instagram/bild?u=' + encodeURIComponent(bild) : '',
     imageOriginal: bild,
     permalink: post.permalink || 'https://www.instagram.com/euconab',
@@ -203,8 +176,7 @@ function normalisePost(post) {
   };
 }
 
-/* Följer paging.next hela vägen, så flödet innehåller varje inlägg —
-   inte bara den första sidan. */
+
 async function fetchAllInstagramPosts() {
   const fields = [
     'id', 'caption', 'media_type', 'media_url', 'thumbnail_url',

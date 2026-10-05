@@ -198,24 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* ---------------------------------------------------------------
-     7. Instagram-flöde
 
-     Två lägen, samma behållare:
-
-     a) Länkläge (standard, kräver ingenting av er)
-        instagram-feed.json innehåller länkar till inlägg. De renderas
-        med Instagrams egen inbäddning — blockquote + embed.js — som
-        fungerar utan token och utan konto. Innehållet i varje inlägg
-        hämtas live från Instagram; det är bara *listan* som är manuell.
-
-     b) API-läge (om servern har INSTAGRAM_ACCESS_TOKEN)
-        Då kommer färdiga inläggsobjekt med bild, text och likes, och
-        flödet uppdateras av sig självt.
-
-     Inbäddningen laddar Metas skript, som sätter kakor. Därför laddas
-     det först när sektionen kommer i vy — inte vid varje sidladdning.
-  ------------------------------------------------------------------ */
   var instagramGallery = document.querySelector("#instagram-gallery");
   if (instagramGallery) {
 

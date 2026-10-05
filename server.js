@@ -495,15 +495,11 @@ Tid: ${new Date().toISOString()}
   }
 
   const safePath = requestUrl.pathname === '/' 
-    ? '/index.html' 
-    : requestUrl.pathname.endsWith('-en') 
-    ? requestUrl.pathname + '.html'
-    : requestUrl.pathname.endsWith('-tr')
-    ? requestUrl.pathname + '.html'
-    : requestUrl.pathname.endsWith('-en/') 
-    ? requestUrl.pathname.slice(0, -1) + '.html'
-    : requestUrl.pathname.endsWith('-tr/')
-    ? requestUrl.pathname.slice(0, -1) + '.html'
+    ? '/index.html'
+    : requestUrl.pathname.replace(/\/$/, '') === '/-en'
+    ? '/index-en.html'
+    : requestUrl.pathname.replace(/\/$/, '') === '/-tr'
+    ? '/index-tr.html'
     : requestUrl.pathname;
   const filePath = path.join(rootDir, safePath);
 

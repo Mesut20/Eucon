@@ -494,7 +494,17 @@ Tid: ${new Date().toISOString()}
     return;
   }
 
-  const safePath = requestUrl.pathname === '/' ? '/index.html' : requestUrl.pathname;
+  const safePath = requestUrl.pathname === '/' 
+    ? '/index.html' 
+    : requestUrl.pathname.endsWith('-en') 
+    ? requestUrl.pathname + '.html'
+    : requestUrl.pathname.endsWith('-tr')
+    ? requestUrl.pathname + '.html'
+    : requestUrl.pathname.endsWith('-en/') 
+    ? requestUrl.pathname.slice(0, -1) + '.html'
+    : requestUrl.pathname.endsWith('-tr/')
+    ? requestUrl.pathname.slice(0, -1) + '.html'
+    : requestUrl.pathname;
   const filePath = path.join(rootDir, safePath);
 
   if (!filePath.startsWith(rootDir)) {

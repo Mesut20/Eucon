@@ -1,17 +1,28 @@
-# Startsidor för språk
-/index-en.html   /-en   301!
-/index-tr.html   /-tr   301!
-/index.html      /      301!
+# Omskrivningar för språkspecifika startsidor (visa en URL men servera annan fil)
+/-en              /index-en.html   200
+/-en/             /index-en.html   200
+/-tr              /index-tr.html   200
+/-tr/             /index-tr.html   200
+/                 /index.html      200
 
-# Ta bort .html från övriga sidor
-/om-oss-en.html  /om-oss-en  301!
-/om-oss-tr.html  /om-oss-tr  301!
-/om-oss.html     /om-oss     301!
+# Ta bort .html från övriga sidor (visa URL utan .html)
+/om-oss-en        /om-oss-en.html  200
+/om-oss-en/       /om-oss-en.html  200
+/om-oss-tr        /om-oss-tr.html  200
+/om-oss-tr/       /om-oss-tr.html  200
+/om-oss           /om-oss.html     200
+/om-oss/          /om-oss.html     200
 
-/galleri-en.html /galleri-en 301!
-/galleri-tr.html /galleri-tr 301!
-/galleri.html    /galleri    301!
+/galleri-en       /galleri-en.html 200
+/galleri-en/      /galleri-en.html 200
+/galleri-tr       /galleri-tr.html 200
+/galleri-tr/      /galleri-tr.html 200
+/galleri          /galleri.html    200
+/galleri/         /galleri.html    200
 
-/kontakt-en.html /kontakt-en 301!
-/kontakt-tr.html /kontakt-tr 301!
-/kontakt.html    /kontakt    301!
+/kontakt-en       /kontakt-en.html 200
+/kontakt-en/      /kontakt-en.html 200
+/kontakt-tr       /kontakt-tr.html 200
+/kontakt-tr/      /kontakt-tr.html 200
+/kontakt          /kontakt.html    200
+/kontakt/         /kontakt.html    200

@@ -30,7 +30,9 @@
 
   /* ── Bestäm nuvarande sida och språk ──────────────────────────────── */
   function detectSection(pathname) {
-    if (/index(-en|-tr)?$/.test(pathname) || pathname === '/' || pathname === '') return 'index';
+    if (/^(\/)?$/.test(pathname)) return 'index';
+    if (/^(\/)?-en\/?$/.test(pathname)) return 'index';
+    if (/^(\/)?-tr\/?$/.test(pathname)) return 'index';
     if (/om-oss/.test(pathname))                return 'om_oss';
     if (/galleri/.test(pathname))               return 'galleri';
     if (/kontakt/.test(pathname))               return 'kontakt';
@@ -38,6 +40,8 @@
   }
 
   function detectLangFromFile(pathname) {
+    if (/^(\/)?-en\/?$/.test(pathname)) return 'en';
+    if (/^(\/)?-tr\/?$/.test(pathname)) return 'tr';
     if (/-en\/?$/.test(pathname)) return 'en';
     if (/-tr\/?$/.test(pathname)) return 'tr';
     return 'sv';

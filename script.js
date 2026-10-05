@@ -5,6 +5,45 @@ import { animate, scroll, stagger } from "https://cdn.jsdelivr.net/npm/motion@la
 document.addEventListener("DOMContentLoaded", function () {
 
   /* ---------------------------------------------------------------
+     0. Force video autoplay on iOS/Safari (Safari blocks autoplay by default)
+  ------------------------------------------------------------------ */
+  var videos = document.querySelectorAll("video[autoplay]");
+  videos.forEach(function(video) {
+    video.muted = true; // Must be muted for autoplay to work
+    var playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function(error) {
+        // Autoplay was prevented
+        console.log("Video autoplay prevented, user interaction may be required");
+      });
+    }
+  });
+
+  /* ---------------------------------------------------------------
+     0.5 GDPR-compliant Google Maps - Load only on user consent
+  ------------------------------------------------------------------ */
+  var mapConsent = document.getElementById("mapConsent");
+  var mapLoadBtn = document.getElementById("mapLoadBtn");
+  var googleMap = document.getElementById("googleMap");
+  
+  if (mapLoadBtn && googleMap) {
+    mapLoadBtn.addEventListener("click", function() {
+      // Show the map iframe
+      googleMap.style.display = "block";
+      // Hide the consent message
+      if (mapConsent) mapConsent.style.display = "none";
+      // Save consent in localStorage for future visits
+      localStorage.setItem("eucon_maps_consent", "true");
+    });
+    
+    // Check if user already consented on previous visit
+    if (localStorage.getItem("eucon_maps_consent") === "true") {
+      googleMap.style.display = "block";
+      if (mapConsent) mapConsent.style.display = "none";
+    }
+  }
+
+  /* ---------------------------------------------------------------
      1. Scroll-hide header — hides on scroll down, reveals on scroll up
   ------------------------------------------------------------------ */
   var header = document.querySelector(".site-header");

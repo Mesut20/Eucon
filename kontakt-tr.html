@@ -192,11 +192,19 @@
       </div>
 
       <div class="findus-map" data-reveal data-reveal-delay="120">
+        <div class="map-consent" id="mapConsent">
+          <p>Konumumuzu göstermek için Google Haritalar kullanıyoruz. Google Haritalar, Google'dan veri yüklemesini gerektirir.</p>
+          <button type="button" class="btn btn-gold" id="mapLoadBtn">Haritayı göster</button>
+          <p class="map-consent-note"><small>Tıklayarak, Google Haritalar hizmet koşullarını kabul edersiniz. <a href="https://policies.google.com/privacy" target="_blank">Google Gizlilik Politikasını okuyun</a></small></p>
+        </div>
         <iframe
-          title="Stockholm merkezinin haritası"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=18.0489%2C59.3266%2C18.0809%2C59.3386&amp;layer=mapnik&amp;marker=59.3326%2C18.0649"
+          id="googleMap"
+          title="Stockholm'daki Eucon ofisinin haritası"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.5234832!2d18.0649!3d59.3326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d6d0d0d0d0d%3A0x0d0d0d0d0d0d0d0d!2sEucon%2C%20Stockholm!5e0!3m2!1str!2sse!4v1234567890"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          allowfullscreen=""
+          referrerpolicy="no-referrer-when-downgrade"
+          style="display:none;"></iframe>
       </div>
     </div>
   </section>

@@ -1,0 +1,17 @@
+# Startsidor för språk
+/index-en.html   /-en   301!
+/index-tr.html   /-tr   301!
+/index.html      /      301!
+
+# Ta bort .html från övriga sidor
+/om-oss-en.html  /om-oss-en  301!
+/om-oss-tr.html  /om-oss-tr  301!
+/om-oss.html     /om-oss     301!
+
+/galleri-en.html /galleri-en 301!
+/galleri-tr.html /galleri-tr 301!
+/galleri.html    /galleri    301!
+
+/kontakt-en.html /kontakt-en 301!
+/kontakt-tr.html /kontakt-tr 301!
+/kontakt.html    /kontakt    301!

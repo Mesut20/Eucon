@@ -15,10 +15,10 @@
 
   /* ── Sidmappning per sektion ──────────────────────────────────────── */
   const PAGES = {
-    index:   { sv: 'index.html',    en: 'index-en.html',    tr: 'index-tr.html'    },
-    om_oss:  { sv: 'om-oss.html',   en: 'om-oss-en.html',   tr: 'om-oss-tr.html'   },
-    galleri: { sv: 'galleri.html',  en: 'galleri-en.html',  tr: 'galleri-tr.html'  },
-    kontakt: { sv: 'kontakt.html',  en: 'kontakt-en.html',  tr: 'kontakt-tr.html'  },
+    index:   { sv: 'index',    en: 'index-en',    tr: 'index-tr'    },
+    om_oss:  { sv: 'om-oss',   en: 'om-oss-en',   tr: 'om-oss-tr'   },
+    galleri: { sv: 'galleri',  en: 'galleri-en',  tr: 'galleri-tr'  },
+    kontakt: { sv: 'kontakt',  en: 'kontakt-en',  tr: 'kontakt-tr'  },
   };
 
   /* Nav-texter per språk */

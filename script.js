@@ -75,35 +75,33 @@ document.addEventListener("DOMContentLoaded", function () {
   var dots = toggle ? toggle.querySelectorAll(".dot") : [];
 
   function openSidebar() {
-    animate(links, { x: "0%" }, { duration: 0.45, easing: [0.22, 1, 0.36, 1] });
-    if (backdrop) { animate(backdrop, { opacity: 1 }, { duration: 0.3 }); backdrop.classList.add("open"); }
+    animate(links, { scale: 1, y: 0, opacity: 1 }, { duration: 0.35, easing: [0.22, 1, 0.36, 1] });
+    if (backdrop) { backdrop.classList.add("open"); }
     if (dots.length === 3) {
-      animate(dots[0], { y: 0, rotate: 45 }, { duration: 0.3 });
-      animate(dots[1], { opacity: 0, scale: 0 }, { duration: 0.2 });
-      animate(dots[2], { y: -7, rotate: -45 }, { duration: 0.3 });
+      animate(dots[0], { translateY: "-8px", rotate: 45 }, { duration: 0.3 });
+      animate(dots[1], { opacity: 0, scaleX: 0 }, { duration: 0.2 });
+      animate(dots[2], { translateY: "8px", rotate: -45 }, { duration: 0.3 });
     }
     toggle.setAttribute("aria-expanded", "true");
     links.classList.add("open");
-    document.body.style.overflow = "hidden";
   }
 
   function closeSidebar() {
-    animate(links, { x: "110%" }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
-    if (backdrop) { animate(backdrop, { opacity: 0 }, { duration: 0.25 }); backdrop.classList.remove("open"); }
+    animate(links, { scale: 0, y: -20, opacity: 0 }, { duration: 0.3, easing: [0.22, 1, 0.36, 1] });
+    if (backdrop) { backdrop.classList.remove("open"); }
     if (dots.length === 3) {
-      animate(dots[0], { y: -7, rotate: 0 }, { duration: 0.3 });
-      animate(dots[1], { opacity: 1, scale: 1 }, { duration: 0.3 });
-      animate(dots[2], { y: 7, rotate: 0 }, { duration: 0.3 });
+      animate(dots[0], { translateY: "0px", rotate: 0 }, { duration: 0.3 });
+      animate(dots[1], { opacity: 1, scaleX: 1 }, { duration: 0.3 });
+      animate(dots[2], { translateY: "0px", rotate: 0 }, { duration: 0.3 });
     }
     toggle.setAttribute("aria-expanded", "false");
     links.classList.remove("open");
-    document.body.style.overflow = "";
   }
 
   var isMobile = window.matchMedia("(max-width:900px)");
 
   if (toggle && links) {
-    if (isMobile.matches) animate(links, { x: "110%" }, { duration: 0 });
+    if (isMobile.matches) animate(links, { scale: 0, y: -20, opacity: 0 }, { duration: 0 });
     toggle.addEventListener("click", function () {
       var isOpen = links.classList.contains("open");
       isOpen ? closeSidebar() : openSidebar();

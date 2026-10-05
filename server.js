@@ -517,7 +517,7 @@ Tid: ${new Date().toISOString()}
   res.end('Not found');
 });
 
-server.listen(port, '0.0.0.0', () => {
+server.listen(port, () => {
   console.log(`Eucon gallery server running at http://localhost:${port}`);
 
   if (instagramAccessToken) {

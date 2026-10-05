@@ -186,15 +186,25 @@ ul,ol{margin:0;padding:0;list-style:none;}
   .nav-toggle{display:flex;}
   .nav-links{
     display:flex;
-    position:fixed;top:10px;right:10px;bottom:10px;width:min(320px, 80vw);
-    background:var(--onyx);border-radius:var(--r-lg);
-    flex-direction:column;align-items:stretch;padding:80px 0 32px 0;
+    position:fixed;
+    top:10px;
+    right:10px;
+    bottom:10px;
+    width:min(320px, 80vw);
+    background:var(--onyx);
+    border-radius:var(--r-lg);
+    flex-direction:column;
+    align-items:stretch;
+    padding:80px 0 32px 0;
     z-index:200;transform:translateX(110%);
     box-shadow:0 20px 60px -10px rgba(0,0,0,0.8);
     transition:transform .4s cubic-bezier(.22,1,.36,1);
     pointer-events:none;
+    max-height:100vh;
+    height:100%;
     overflow-y:auto;
-    max-height:90vh;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:60px;
   }
   .nav-links.open{
     transform:translateX(0%) !important;
@@ -225,9 +235,16 @@ ul,ol{margin:0;padding:0;list-style:none;}
     color:var(--gold-soft);
     font-weight:600;
   }
-  .nav-links .nav-cta-mobile{
-    display:block;width:calc(100% - 56px);margin:0 auto;padding:14px 28px;border-radius:12px;
-    background:var(--gold);color:var(--onyx);font-size:0.95rem;font-weight:700;
+  .nav-links .nav-cta-mobile {
+    display:block;
+    width:calc(100% - 56px);
+    margin:0 auto;
+    padding:14px 28px;
+    border-radius:12px;
+    background:var(--gold);
+    color:var(--onyx);
+    font-size:0.95rem;
+    font-weight:700;
     transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
     pointer-events:auto;
     cursor:pointer;
@@ -241,9 +258,19 @@ ul,ol{margin:0;padding:0;list-style:none;}
     transform:scale(0.98);
   }
   .nav-close{
-    position:absolute;top:16px;right:16px;width:40px;height:40px;
-    background:rgba(200,138,29,0.15);border:none;color:var(--gold-soft);cursor:pointer;
-    display:flex;align-items:center;justify-content:center;padding:0;
+    position:absolute;
+    top:16px;
+    right:16px;
+    width:40px;
+    height:40px;
+    background:rgba(200,138,29,0.15);
+    border:none;
+    color:var(--gold-soft);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
     transition:background .2s ease, color .2s ease, transform .3s ease;
     pointer-events:auto;
     z-index:201;
@@ -253,14 +280,27 @@ ul,ol{margin:0;padding:0;list-style:none;}
     background:rgba(200,138,29,0.3);
     transform:scale(0.95);
   }
-  .nav-close svg{width:20px;height:20px;display:block;stroke-width:2.5;}
+  .nav-close svg{
+    width:20px;
+    height:20px;
+    display:block;
+    stroke-width:2.5;
+  }
   .nav-links-lang{
-    display:flex;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.12);
     width:100%;
     justify-content:center;
   }
   .nav-links-lang .language-option{
-    width:40px;height:28px;padding:4px;margin:0;flex:0 0 auto;
+    width:40px;
+    height:28px;
+    padding:4px;
+    margin:0;
+    flex:0 0 auto;
     border-radius:6px;
     transition:background .2s ease, transform .2s ease;
     cursor:pointer;
@@ -278,7 +318,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
     height:auto;
     border-radius:4px;
   }
-  .nav-links.open{
+    .nav-links.open{
     transform:translateX(0%) !important;
   }
 }
@@ -605,7 +645,7 @@ section{padding:100px 0;}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .contact-panel{padding:52px;border-radius:var(--r-lg);background:var(--cream);box-shadow:var(--shadow-card);}
 .contact-panel.dark{background:var(--onyx);color:var(--ivory);}
-.vd-card{display:flex;align-items:center;gap:20px;margin:28px 0 34px;padding-top:28px;border-top:1px solid rgba(179,144,63,0.3);}
+.vd-card{display:flex;align-items:center;gap:20px;margin:28px 0 34px;padding-top:28px;border-top:1px solid rgba(179,144,82,0.25);}
 /* Rund avatar. Bilden beskärs till cirkeln med object-fit: cover —
    --vd-focus flyttar utsnittet om ansiktet inte sitter mitt i bilden.
    Initialerna ligger under och syns bara om bilden saknas. */
@@ -678,7 +718,10 @@ section{padding:100px 0;}
 .instagram-media-wrap:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
 .lightbox-close{position:absolute;top:28px;right:var(--gutter);width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:transparent;color:var(--ivory);cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .lightbox-close:hover{background:var(--gold);color:var(--onyx);}
-
+.instagram-media-wrap .play-icon,
+.instagram-media-wrap::after{
+  display: none !important;
+}
 /* -------------------------------------------------- footer */
 footer{background:#2b2d30;color:#dbe7f2;padding:72px 0 0;border-top:3px solid var(--gold);}
 footer .wrap{padding:0 var(--gutter);max-width:var(--max);}
@@ -1483,8 +1526,12 @@ section[id]{scroll-margin-top:clamp(92px,12vh,132px);}
 .chapter-flip .chapter-media{order:2;}
 .chapter-media{margin:0;overflow:hidden;background:var(--onyx);}
 .chapter-media img{
-  width:100%;aspect-ratio:4/3;object-fit:cover;
+  width:100%;
+  height:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
   transition:transform 1.1s var(--ease-out);
+  display:block;
 }
 .chapter-media:hover img{transform:scale(1.045);}
 

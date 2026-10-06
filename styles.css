@@ -150,7 +150,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
 .site-header.header-on-light .nav-mid a[aria-current="page"]{color:#071d36;}
 .site-header.header-on-light .nav-mid a::after{background:#071d36;}
 .site-header.header-on-light .nav-mid a::before{background:linear-gradient(90deg, rgba(7,29,54,0), rgba(7,29,54,0.08), rgba(7,29,54,0));}
-.site-header.header-on-light .nav-toggle{border-color:rgba(7,29,54,0.22);background:transparent;}
+.site-header.header-on-light .nav-toggle{border-color:rgba(7,29,54,0.35);background:transparent;}
 .site-header.header-on-light .nav-toggle:hover{background:rgba(7,29,54,0.06);}
 .site-header.header-on-light .nav-toggle .dot{background:#071d36;}
 .nav-right{display:flex;align-items:center;gap:clamp(8px, 1vw, 16px);}
@@ -176,9 +176,9 @@ ul,ol{margin:0;padding:0;list-style:none;}
   display:none;
   position:relative;
   background:transparent;
-  border:2px solid var(--gold-soft);
+  border:2px solid rgba(255,255,255,0.7);
   border-radius:8px;
-  color:var(--onyx);
+  color:var(--ivory);
   width:48px;
   height:48px;
   align-items:center;
@@ -190,11 +190,11 @@ ul,ol{margin:0;padding:0;list-style:none;}
   padding:6px;
 }
 .nav-toggle:hover{
-  background:rgba(200,138,29,0.15);
+  background:rgba(255,255,255,0.12);
   transform:scale(1.05);
   box-shadow:none;
 }
-.nav-toggle:focus-visible,.nav-cta:focus-visible,.nav-mid a:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
+.nav-toggle:focus-visible,.nav-cta:focus-visible,.nav-mid a:focus-visible{outline:2px solid rgba(255,255,255,0.8);outline-offset:4px;}
 .nav-toggle .dots{
   position:relative;
   width:24px;
@@ -210,7 +210,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
   height:2.5px;
   margin:0;
   border-radius:2px;
-  background:var(--gold-soft);
+  background:#ffffff;
   transition:transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
 }
 .nav-toggle .dot:nth-child(1){
@@ -224,8 +224,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
   transform:translateY(0) rotate(0deg);
 }
 
-.sidebar-backdrop{position:fixed;inset:0;background:rgba(20,19,15,0.5);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-.sidebar-backdrop.open{pointer-events:none;opacity:1;}
+.sidebar-backdrop{display:none;}
 
 @media (max-width:900px){
   .nav-mid{display:none;}
@@ -260,7 +259,7 @@ ul,ol{margin:0;padding:0;list-style:none;}
   }
   .nav-links a{
     font-size:0.95rem;
-    color:var(--gold-soft);
+    color:#ffffff;
     display:block;
     padding:12px 16px;
     cursor:pointer;
@@ -961,14 +960,13 @@ footer .wrap{padding:0 var(--gutter);max-width:var(--max);}
    då bakom den fasta headern. Ge den riktig höjd i stället.
    :not(.hero-md) så att undersidornas kortare hero lämnas orörd. */
 @media (max-width:900px){
-  .hero-xl:not(.hero-md){aspect-ratio:auto;height:auto;min-height:min(92vh,780px);}
-  .hero-xl:not(.hero-md) .hero-xl-content{bottom:clamp(72px,11vh,120px);}
-  .hero-xl h1{font-size:clamp(2rem,8.6vw,3.1rem);}
-  .hero-xl .lede{font-size:1rem;}
+  .hero-xl h1{font-size:clamp(1.5rem,8.6vw,3.1rem);}
+  .hero-xl .lede{font-size:clamp(0.85rem,3.5vw,1rem);}
   .hero-cue{display:none;}
 }
 @media (max-width:900px) and (orientation:landscape){
-  .hero-xl:not(.hero-md){min-height:min(120vh,560px);}
+  .hero-xl{min-height:400px;}
+  .hero-md{min-height:320px;}
 }
 
 .hero-eyebrow{
@@ -1556,10 +1554,6 @@ footer .wrap{padding:0 var(--gutter);max-width:var(--max);}
 
 /* Ankarlänkar från startsidan ska inte landa bakom den fasta headern. */
 section[id]{scroll-margin-top:clamp(92px,12vh,132px);}
-
-/* Undersidornas kortare hero: innehållet satt så högt att det hamnade
-   under headern. Lägg det närmare underkanten i stället. */
-.hero-md .hero-xl-content{bottom:clamp(38px,7vh,74px);}
 
 /* startsidans kapitel kan ha två länkar bredvid varandra */
 .story-foot{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);flex-wrap:wrap;}

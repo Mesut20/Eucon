@@ -418,44 +418,119 @@ ul,ol{margin:0;padding:0;list-style:none;}
 .link-arrow:hover svg{transform:translateX(4px);}
 .on-dark .link-arrow{color:var(--ivory);}
 
-/* -------------------------------------------------- HERO XL (rounded, inset) */
+/* ================================================ HERO SECTIONS (Modern Responsive Rebuild) */
+
 .hero-xl{
-  position:relative;height:auto;aspect-ratio:16 / 9;min-height:0;overflow:hidden;color:var(--ivory);background:transparent;
-  margin:0;border-radius:0;
-  box-shadow:var(--shadow-soft);
-}
-.hero-xl img,.hero-xl video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;transform-origin:center center;}
-/* Dämpningen görs med ett lager ovanpå, inte med filter: brightness().
-   Ett filter tvingar varje avkodad bildruta genom ett extra renderingspass;
-   ett platt lager komponeras i stället direkt av GPU:n. Samma resultat
-   (0.82 ljusstyrka ≈ 18 % svart ovanpå), utan kostnaden per bildruta. */
-.hero-xl::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(0deg, rgba(20,19,15,0.6) 0%, rgba(20,19,15,0.04) 42%, rgba(20,19,15,0.12) 100%),
-  rgba(20,19,15,0.18);}
-.hero-xl-content{position:absolute;left:0;right:0;bottom:clamp(120px,34vw,280px);z-index:2;padding:0 clamp(24px,4vw,56px);}
-.hero-xl-content .wrap{padding:0;max-width:var(--max);margin:0 auto;}
-.eyebrow-line{display:flex;align-items:center;gap:14px;margin-bottom:22px;color:var(--gold-soft);font-size:0.85rem;letter-spacing:0.04em;}
-.eyebrow-line::before{content:"";width:34px;height:1px;background:var(--gold);}
-.hero-xl h1{font-size:clamp(2.4rem, 5.6vw, 4.6rem);max-width:17ch;color:var(--ivory);}
-.hero-xl .lede{max-width:50ch;font-size:1.1rem;color:#e8e2d3;}
-.hero-cta{display:flex;gap:16px;margin-top:30px;flex-wrap:wrap;}
-
-/* .hero-xl har aspect-ratio 16/9. Sätter man dessutom en fast höjd
-   härleder webbläsaren BREDDEN ur höjden, och heron blir smalare än
-   sidan — en vit remsa uppstod till höger. Nolla kvoten här. */
-.hero-md{
-  aspect-ratio:auto;
+  position:relative;
   width:100%;
-  height:clamp(420px, 60vh, 660px);
-  min-height:0;
+  min-height:750px;
+  height:auto;
+  overflow:hidden;
+  color:var(--ivory);
+  background:transparent;
+  margin:0;
+  border-radius:0;
+  box-shadow:var(--shadow-soft);
+  display:grid;
+  grid-template-rows:1fr;
+  align-content:end;
+  padding-bottom:clamp(100px, 18vh, 220px);
+  padding-top:82px;
 }
-.hero-md h1{font-size:clamp(2.1rem,4.4vw,3.4rem);}
 
-/* hero med fast bildproportioner — används på kontakt-sidor med foto */
+.hero-xl img,.hero-xl video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  will-change:transform;
+  transform-origin:center center;
+  z-index:0;
+}
+
+.hero-xl::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg, rgba(20,19,15,0.6) 0%, rgba(20,19,15,0.04) 42%, rgba(20,19,15,0.12) 100%),rgba(20,19,15,0.18);
+  z-index:1;
+}
+
+.hero-xl-content{
+  position:relative;
+  z-index:2;
+  padding:clamp(40px, 6vw, 90px) clamp(24px, 4vw, 56px);
+  width:100%;
+}
+
+.hero-xl-content .wrap{
+  padding:0;
+  max-width:var(--max);
+  margin:0 auto;
+}
+
+.eyebrow-line{
+  display:flex;
+  align-items:center;
+  gap:clamp(8px, 1.2vw, 14px);
+  margin-bottom:clamp(8px, 1.5vh, 16px);
+  color:var(--gold-soft);
+  font-size:clamp(0.65rem, 1vw, 0.85rem);
+  letter-spacing:0.04em;
+}
+
+.eyebrow-line::before{
+  content:"";
+  width:clamp(20px, 2.5vw, 34px);
+  height:1px;
+  background:var(--gold);
+  flex-shrink:0;
+}
+
+.hero-xl h1{
+  font-size:clamp(1.5rem, 6.5vw, 4.6rem);
+  max-width:17ch;
+  color:var(--ivory);
+  margin:0 0 clamp(8px, 1.5vh, 16px) 0;
+  line-height:1.1;
+}
+
+.hero-xl .lede{
+  max-width:50ch;
+  font-size:clamp(0.85rem, 1.8vw, 1.1rem);
+  color:#e8e2d3;
+  margin:0 0 clamp(16px, 2.5vh, 24px) 0;
+  line-height:1.6;
+}
+
+.hero-cta{
+  display:flex;
+  gap:clamp(10px, 1.5vw, 16px);
+  margin-top:0;
+  flex-wrap:wrap;
+}
+
+.hero-cta .btn{
+  padding:clamp(10px, 1.2vh, 14px) clamp(20px, 2.5vw, 28px);
+  font-size:clamp(0.8rem, 1.3vw, 0.95rem);
+}
+
+/* Subpage heroes - smaller variant */
+.hero-md{
+  min-height:480px;
+  padding-bottom:clamp(60px, 12vh, 130px);
+}
+
+.hero-md h1{
+  font-size:clamp(1.3rem, 5vw, 3.4rem);
+}
+
+/* Image-only hero variant */
 .hero-photo{
-  height:auto !important;
-  aspect-ratio:16/9;
-  max-height:75vh;
+  min-height:460px;
+  aspect-ratio:auto;
+  max-height:none;
 }
 
 /* -------------------------------------------------- homepage editorial rhythm */

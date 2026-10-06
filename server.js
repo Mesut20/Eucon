@@ -501,12 +501,20 @@ Tid: ${new Date().toISOString()}
     : requestUrl.pathname.replace(/\/$/, '') === '/-tr'
     ? '/index-tr.html'
     : requestUrl.pathname;
-  const filePath = path.join(rootDir, safePath);
+  let filePath = path.join(rootDir, safePath);
 
   if (!filePath.startsWith(rootDir)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Forbidden');
     return;
+  }
+
+  // Om filen inte finns och inte har .html, försök med .html-tillägget
+  if (!fs.existsSync(filePath) && !safePath.includes('.')) {
+    const htmlPath = filePath + '.html';
+    if (fs.existsSync(htmlPath)) {
+      filePath = htmlPath;
+    }
   }
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {

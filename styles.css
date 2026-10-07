@@ -699,6 +699,44 @@ section{padding:100px 0;}
 .instagram-likes svg{width:16px;height:16px;}
 .instagram-caption{margin-top:10px;color:var(--graphite);font-size:.82rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .instagram-empty{padding:28px;border:1px dashed rgba(18,59,104,0.2);border-radius:16px;background:var(--cream);color:var(--graphite);font-size:.95rem;}
+.ig-notice{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:18px;
+  padding:8px 16px;
+  background:#e8f8ee;
+  color:#1a6b3a;
+  border:1px solid #a8ddb8;
+  border-radius:999px;
+  font-size:0.82rem;
+  font-weight:600;
+  opacity:1;
+  transition:opacity .4s ease, transform .4s ease;
+}
+.ig-notice--hide{
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+}
+.ig-notice-close{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:2px;
+  margin-left:4px;
+  color:#1a6b3a;
+  border-radius:50%;
+  line-height:1;
+  transition:background .2s ease, transform .2s ease;
+}
+.ig-notice-close:hover{
+  background:rgba(26,107,58,0.12);
+  transform:scale(1.15);
+}
 @media (max-width:980px){.instagram-gallery{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (max-width:560px){.instagram-gallery{grid-template-columns:1fr;}}
 

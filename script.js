@@ -296,6 +296,8 @@ document.addEventListener("DOMContentLoaded", function () {
       var likes = (post.likes === null || post.likes === undefined) ? null : Number(post.likes);
 
       var altText = caption ? caption.replace(/"/g, "&quot;").slice(0, 120) : "Instagram-inlägg";
+      var igLang = document.documentElement.lang || "sv";
+      var igFallback = igLang === "en" ? "New post from Instagram." : igLang === "tr" ? "Instagram'dan yeni gönderi." : "Nytt inlägg från Instagram.";
 
       return [
         '<article class="instagram-post">',
@@ -320,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '    <div class="instagram-stats">' +
         '      <span class="instagram-likes"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5A4.5 4.5 0 0 1 6.5 4c1.74 0 3.41.81 4.5 2.09A6.13 6.13 0 0 1 15.5 4 4.5 4.5 0 0 1 20 8.5c0 3.78-3.4 6.86-8.55 11.5L12 21.35Z"/></svg>' + likes.toLocaleString('sv-SE') + '</span>' +
         '    </div>',
-        '    <div class="instagram-caption">' + (caption ? caption.replace(/\n/g, '<br>') : 'Nytt inlägg från Instagram.') + '</div>',
+        '    <div class="instagram-caption">' + (caption ? caption.replace(/\n/g, '<br>') : '') + '</div>',
         '  </div>',
         '</article>'
       ].join('');
@@ -346,6 +348,63 @@ document.addEventListener("DOMContentLoaded", function () {
         /* API-läge: ta bort eventuell embed-klass från tidigare länkläge */
         instagramGallery.classList.remove("instagram-embeds");
         instagramGallery.innerHTML = poster.map(igKort).join('');
+
+        /* Visa notis om senaste inlägget är nytt (max 48h) */
+        var igLang = document.documentElement.lang || "sv";
+        var igFallback = igLang === "en" ? "New post from Instagram." : igLang === "tr" ? "Instagram'dan yeni gönderi." : "Nytt inlägg från Instagram.";
+        var befintligNotis = instagramGallery.parentNode.querySelector('.ig-notice');
+        if (befintligNotis) befintligNotis.remove();
+
+        /* Använd senaste inläggets permalink som unikt ID */
+        var senasteInlagg = poster[0];
+        var senasteId = senasteInlagg && (senasteInlagg.permalink || senasteInlagg.id);
+        if (senasteId) {
+          var LS_KEY = 'eucon_ig_notis_' + btoa(senasteId).slice(0, 20);
+          var sparad = localStorage.getItem(LS_KEY);
+          var nu = Date.now();
+          var TIMMAR_48 = 48 * 60 * 60 * 1000;
+
+          /* Visa notis om: aldrig stängd för detta inlägg, eller stängd men < 48h sedan inlägget publicerades */
+          var visaNotis = false;
+          if (!sparad) {
+            /* Aldrig sett detta inlägg — visa notisen */
+            visaNotis = true;
+            /* Spara tidsstämpel när notisen FÖRST visades */
+            localStorage.setItem(LS_KEY, JSON.stringify({ forstaVisad: nu, stangd: false }));
+          } else {
+            var data = JSON.parse(sparad);
+            var forstaVisad = data.forstaVisad || nu;
+            if (!data.stangd && (nu - forstaVisad) < TIMMAR_48) {
+              /* Inte stängd och inom 48h — visa fortfarande */
+              visaNotis = true;
+            }
+            /* Om 48h passerat och ej stängd — markera som stängd automatiskt */
+            if ((nu - forstaVisad) >= TIMMAR_48 && !data.stangd) {
+              data.stangd = true;
+              localStorage.setItem(LS_KEY, JSON.stringify(data));
+            }
+          }
+
+          if (visaNotis) {
+            var notis = document.createElement('div');
+            notis.className = 'ig-notice';
+            notis.innerHTML =
+              '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" width="15" height="15"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '<span>' + igFallback + '</span>' +
+              '<button class="ig-notice-close" aria-label="Stäng">' +
+                '<svg viewBox="0 0 24 24" fill="none" width="13" height="13" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>' +
+              '</button>';
+            instagramGallery.parentNode.insertBefore(notis, instagramGallery);
+
+            function stangNotis(manuell) {
+              notis.classList.add('ig-notice--hide');
+              setTimeout(function() { if (notis.parentNode) notis.parentNode.removeChild(notis); }, 400);
+              /* X-knappen stänger bara tillfälligt (session) — ingen localStorage-ändring */
+            }
+            notis.querySelector('.ig-notice-close').addEventListener('click', function() { stangNotis(false); });
+            setTimeout(function() { stangNotis(false); }, 10000);
+          }
+        }
       }
     }
 
